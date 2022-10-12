@@ -7,17 +7,15 @@ config()
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 
 bot.start(function (ctx) {
-    ctx.reply('Start command!')
+    ctx.reply('Hi, ✋ It is echo bot!')
 })
 
 bot.help(function (ctx) {
     ctx.reply('Send me any message and I will copy that message!')
 })
 
-bot.use(async function (ctx, next) {
-    // @ts-ignore
-    await ctx.reply(ctx.message.text)
-    await next()
+bot.on('message', async function (ctx) {
+    await ctx.telegram.copyMessage(ctx.chat.id, ctx.message.from.id, ctx.message.message_id)
 })
 
 ;(async function () {
