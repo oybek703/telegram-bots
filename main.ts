@@ -20,5 +20,5 @@ bot.on('message', async function (ctx) {
 
 ;(async function () {
     await bot.launch()
-    console.log('Bot started'.blue.underline)
+    console.log('Bot launched successfully!'.blue.underline)
 })()
