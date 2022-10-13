@@ -14,6 +14,10 @@ fromScene.on('text', function (ctx) {
     return ctx.scene.leave()
 })
 
+fromScene.on('text', function (ctx) {
+    ctx.reply('Only text messages are accepted!')
+})
+
 fromScene.leave(async function (ctx, next) {
     await ctx.reply('Thanks for setting from language.')
 })
