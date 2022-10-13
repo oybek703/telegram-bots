@@ -2,7 +2,9 @@ import 'colors'
 import {Telegraf} from 'telegraf'
 import {config} from 'dotenv'
 
-if (process.env.NODE_ENV === 'development') config()
+const isDevelopment = process.env.NODE_ENV === 'development'
+
+if (isDevelopment) config()
 
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 
@@ -19,6 +21,22 @@ bot.on('message', async function (ctx) {
 })
 
 ;(async function () {
-    await bot.launch()
-    console.log('Bot launched successfully!'.blue.underline)
+    try {
+        if (isDevelopment) {
+            await bot.launch()
+        }
+        else {
+            await bot.launch({
+                webhook: {
+                    // @ts-ignore
+                    port: process.env.PORT ?? 5000,
+                    domain: process.env.DOMAIN as string
+                }
+            })
+        }
+        console.log(`Bot launched successfully in ${process.env.NODE_ENV} mode!`.blue.underline)
+    } catch (e: unknown) {
+        console.log('Error while launching bot: ', e)
+    }
 })()
+
