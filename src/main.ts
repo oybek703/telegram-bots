@@ -11,6 +11,7 @@ import {IContext} from './interfaces/context.interface'
 import LocalSession from 'telegraf-session-local'
 import translate from './services/translate'
 import {AxiosError} from 'axios'
+import inlineQuery from './handlers/inlineQuery'
 
 config()
 
@@ -44,6 +45,8 @@ bot.on('message', async function (ctx) {
         ctx.reply('Something went wrong!')
     }
 })
+
+bot.on('inline_query', inlineQuery)
 
 ;(async function () {
     await bot.launch()
