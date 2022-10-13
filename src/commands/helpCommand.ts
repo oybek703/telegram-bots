@@ -1,6 +1,6 @@
 import {Context} from 'telegraf'
 
-async function help(ctx: Context) {
+async function helpCommand(ctx: Context) {
     await ctx.reply(`
         /from - Set from language
         /to - Set to language
@@ -14,4 +14,4 @@ async function help(ctx: Context) {
     )
 }
 
-export default help
+export default helpCommand

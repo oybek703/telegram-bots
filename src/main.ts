@@ -1,28 +1,24 @@
 import 'colors'
-import {session, Telegraf} from 'telegraf'
+import {Scenes, session, Telegraf} from 'telegraf'
 import {config} from 'dotenv'
-import start from './commands/start'
-import help from './commands/help'
-import {Stage} from 'telegraf/typings/scenes'
-import fromScene from './scenes/from'
+import startCommand from './commands/startCommand'
+import helpCommand from './commands/helpCommand'
+import fromScene from './scenes/fromScene'
+import fromCommand from './commands/fromCommand'
 
 config()
 
-const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
+const bot = new Telegraf<Scenes.SceneContext>(`${process.env.BOT_TOKEN}`)
 
-// @ts-ignore
-const stage = new Stage([fromScene])
+const stage = new Scenes.Stage<Scenes.SceneContext>([fromScene], {ttl: 10})
 
 bot.use(session())
-// @ts-ignore
 bot.use(stage.middleware())
 
-bot.start(start)
-bot.help(help)
-bot.command('from', async function (ctx) {
-    // @ts-ignore
-    ctx.scene.enter('from')
-})
+bot.start(startCommand)
+bot.help(helpCommand)
+
+bot.command('from', fromCommand)
 
 
 ;(async function () {
