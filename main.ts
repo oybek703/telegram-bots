@@ -2,7 +2,7 @@ import 'colors'
 import {Telegraf} from 'telegraf'
 import {config} from 'dotenv'
 
-config()
+if (process.env.NODE_ENV === 'development') config()
 
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 
@@ -20,5 +20,5 @@ bot.on('message', async function (ctx) {
 
 ;(async function () {
     await bot.launch()
-    console.log('Bot started'.blue.underline)
+    console.log('Bot launched successfully!'.blue.underline)
 })()
