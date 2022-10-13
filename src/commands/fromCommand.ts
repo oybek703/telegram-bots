@@ -1,7 +1,7 @@
-import {Scenes} from 'telegraf'
+import {IContext} from '../interfaces/context.interface'
 
-function fromCommand(ctx: Scenes.SceneContext) {
-    ctx.scene.enter('from')
+function fromCommand(ctx: IContext) {
+    return ctx.scene.enter('from')
 }
 
 export default fromCommand

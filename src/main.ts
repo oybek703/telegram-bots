@@ -7,15 +7,13 @@ import fromScene from './scenes/fromScene'
 import fromCommand from './commands/fromCommand'
 import toScene from './scenes/toScene'
 import toCommand from './commands/toCommand'
+import {IContext} from './interfaces/context.interface'
 
 config()
 
-const bot = new Telegraf<Scenes.SceneContext>(`${process.env.BOT_TOKEN}`)
+const bot = new Telegraf<IContext>(`${process.env.BOT_TOKEN}`)
 
-const stage = new Scenes.Stage<Scenes.SceneContext>(
-    [fromScene, toScene],
-    {ttl: 10}
-)
+const stage = new Scenes.Stage<IContext>([fromScene, toScene])
 
 bot.use(session())
 bot.use(stage.middleware())

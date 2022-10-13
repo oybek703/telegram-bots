@@ -1,6 +1,7 @@
 import {Scenes} from 'telegraf'
+import {IContext} from '../interfaces/context.interface'
 
-const toScene = new Scenes.BaseScene<Scenes.SceneContext>('to')
+const toScene = new Scenes.BaseScene<IContext>('to')
 
 toScene.enter(async function (ctx) {
     return await ctx.reply('Please enter to language code: ')
