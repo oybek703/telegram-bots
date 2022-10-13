@@ -14,7 +14,7 @@ fromScene.on('text', function (ctx) {
     return ctx.scene.leave()
 })
 
-fromScene.on('text', function (ctx) {
+fromScene.on('message', function (ctx) {
     ctx.reply('Only text messages are accepted!')
 })
 
