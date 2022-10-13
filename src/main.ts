@@ -1,5 +1,5 @@
 import 'colors'
-import {Scenes, session, Telegraf} from 'telegraf'
+import {Scenes, Telegraf} from 'telegraf'
 import {config} from 'dotenv'
 import startCommand from './commands/startCommand'
 import helpCommand from './commands/helpCommand'
@@ -9,6 +9,8 @@ import toScene from './scenes/toScene'
 import toCommand from './commands/toCommand'
 import {IContext} from './interfaces/context.interface'
 import LocalSession from 'telegraf-session-local'
+import translate from './services/translate'
+import {AxiosError} from 'axios'
 
 config()
 
@@ -25,6 +27,23 @@ bot.help(helpCommand)
 bot.command('from', fromCommand)
 bot.command('to', toCommand)
 bot.command('lang', ctx => ctx.reply(`${ctx.session.from} - ${ctx.session.to}`))
+
+bot.on('message', async function (ctx) {
+    try {
+        if ('text' in ctx.message) {
+            const {from, to} = ctx.session
+            await translate(ctx.message.text, from, to)
+        } else {
+            ctx.reply('Invalid text!')
+        }
+    } catch (e) {
+        console.log(e)
+        if (e instanceof AxiosError) {
+            console.log(e.message)
+        }
+        ctx.reply('Something went wrong!')
+    }
+})
 
 ;(async function () {
     await bot.launch()
