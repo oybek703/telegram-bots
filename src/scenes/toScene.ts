@@ -4,13 +4,14 @@ import {IContext} from '../interfaces/context.interface'
 const toScene = new Scenes.BaseScene<IContext>('to')
 
 toScene.enter(async function (ctx) {
-    return await ctx.reply('Please enter to language code: ')
+    await ctx.reply('Please enter to language code: ')
 })
 
 toScene.on('text', function (ctx) {
     if (ctx.message.text.length > 2 || ctx.message.text.length === 1) {
         return ctx.reply('Language code must be 2 chars.')
     }
+    ctx.session.to = ctx.message.text
     ctx.reply(`${ctx.message.text} set as from language!`)
     return ctx.scene.leave()
 })
